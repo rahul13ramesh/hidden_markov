@@ -16,8 +16,25 @@ setup(name='hidden_markov',
           'numpy',
       ],
 
+ classifiers=[
+        # How mature is this project? Common values are
+        #   3 - Alpha
+        #   4 - Beta
+        #   5 - Production/Stable
+        'Development Status :: 3 - Alpha',
+
+
+        # Specify the Python versions you support here. In particular, ensure
+        # that you indicate whether you support Python 2, Python 3 or both.
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+    ],
+
+
+
       long_description=readme(),
 
-      keywords='hmm markov model',
+      keywords='hmm hidden markov model',
 
       zip_safe=False)
