@@ -14,7 +14,7 @@ An alternative way to install the package **hidden_markov**, is to use pip or ea
 
     $ pip install hidden_markov
 
-If you are unfamiliar with pip, checkout `this link <https://pip.pypa.io/en/stable/installing/>`_ to install pip. 
+Unfamiliar with pip? Checkout `this link <https://pip.pypa.io/en/stable/installing/>`_ to install pip. 
 
 Usage
 -----

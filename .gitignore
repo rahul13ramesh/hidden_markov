@@ -6,3 +6,8 @@
 
 # Python egg metadata, regenerated from source files by setuptools.
 /*.egg-info
+
+~*.*
+
+# Ipython notebook checkpoints
+*checkpoints*
