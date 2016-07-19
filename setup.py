@@ -16,7 +16,7 @@ setup(name='hidden_markov',
           'numpy',
       ],
 
- classifiers=[
+      classifiers=[
         # How mature is this project? Common values are
         #   3 - Alpha
         #   4 - Beta
@@ -31,7 +31,8 @@ setup(name='hidden_markov',
         'Programming Language :: Python :: 3.5',
     ],
 
-
+      test_suite='nose.collector',
+      tests_require=['nose'],
 
       long_description=readme(),
 
