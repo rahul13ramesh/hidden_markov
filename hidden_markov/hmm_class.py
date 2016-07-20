@@ -316,7 +316,7 @@ class hmm:
         norm = sum(delta[:,0])
         return delta[:,0].transpose()/norm
             
-    def train_hmm(self,observation_list, iterations, quantities):
+    def train_hmm(self,observation_list, iterations=500, quantities):
 
         obs_size = len(observation_list)
         prob = float('inf')
