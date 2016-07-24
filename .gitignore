@@ -11,3 +11,7 @@
 
 # Ipython notebook checkpoints
 *checkpoints*
+
+build/
+
+dist/
