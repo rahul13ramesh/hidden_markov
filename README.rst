@@ -9,6 +9,8 @@ Documentation
 
 `Check this link <http://hidden-markov.readthedocs.io/en/latest/>`_ for a detailed documentation of the project. 
 
+If you are new to hidden markov models check out this `tutorial <https://drive.google.com/file/d/0B51S7y4fFTS2bnNLcnllc1dpdVE/view?usp=sharing>`_  . 
+
 Requirements
 ------------
 
