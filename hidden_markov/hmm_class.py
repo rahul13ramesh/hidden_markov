@@ -4,51 +4,43 @@ class hmm:
 
     """ Stores a hidden markov model object, and the model parameters.
 
-    Implemented Algorithms :
-        Viterbi Algorithm
-        Forward Algorithm
-        Baum-Welch Algorithm
+    **Implemented Algorithms** :
+
+        * Viterbi Algorithm
+        * Forward Algorithm
+        * Baum-Welch Algorithm
 
     """
 
     def __init__(self, states, observations, start_prob , trans_prob,  em_prob):
         """ Initialize The hmm class object.
 
-        Parameters :
-        ------------
-            states       :  A list or tuple
-                            The set of hidden states.
+        **Arguments**:
 
-            observations :  A list or tuple
-                            The set unique of possible observations.
+        :param states: The set of hidden states
+        :type states: A list or tuple
 
-            start_prob   :  Numpy matrix, dimension = length(states) X 1
-                            The start probabilities of various states, given in same order as 'states' variable
-                            start_prob[i] = probability( start at states[i] )
+        :param observations: The set unique of possible observations
+        :type observations: A list or tuple
 
-            trans_prob   :  Numpy matrix, dimension = [ len(states) X len(states) ]  
-                            The transition probabilities, with ordering same as 'states' variable . 
-                            trans_prob[i,j] = probability(states[i] -> states[j])
+        :param start_prob: The start probabilities of various states, given in same order as 'states' variable. **start_prob[i] = probability( start at states[i] )**.
+        :type start_prob: Numpy matrix, dimension = [ length(states) X 1 ]
 
-            em_prob      :  Numpy matrix, dimension = [ len(states) X len(observations) ]       
-                            The emission probabilities, with ordering same as 'states' variable and 'observations' variable.
-                            em_prob[i,j] = probability(states[i],observations[j])
+        :param trans_prob: The transition probabilities, with ordering same as 'states' variable . **trans_prob[i,j] = probability(states[i] -> states[j])**.
+        :type trans_prob: Numpy matrix, dimension = [ len(states) X len(states) ]  
 
-        See Also :
-        ----------
-            hmm.forward_algo(observations)
-            hmm.viterbi(observations)
-            hmm.train_hmm(observation_list, iterations, quantities)
+        :param em_prob: The emission probabilities, with ordering same as 'states' variable and 'observations' variable. **em_prob[i,j] = probability(states[i],observations[j])**.
+        :type em_prob: Numpy matrix, dimension = [ len(states) X len(observations) ]      
 
-        Example :
-        ---------
-            >>> states = ('s', 't')
-            >>> possible_observation = ('A','B' )
-            >>> # Numpy arrays of the data
-            >>> start_probability = np.matrix( '0.5 0.5 ')
-            >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
-            >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
-            >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
+        **Example**:
+
+        >>> states = ('s', 't')
+        >>> possible_observation = ('A','B' )
+        >>> # Numpy arrays of the data
+        >>> start_probability = np.matrix( '0.5 0.5 ')
+        >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
+        >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
+        >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
 
         """
 
@@ -152,38 +144,29 @@ class hmm:
     def forward_algo(self,observations):
         """ Finds the probability of an observation sequence for given model parameters
 
-        Parameters :
-        ------------
-            observations :  A list or tuple
-                            The observation sequence, where each element belongs to 'observations' variable declared with __init__ object.
+        **Arguments**:
 
-        Return : 
-        --------
-            The probability of occurence of the observation sequence
-            
-        Features:
-        ---------
-            No scaling applied here
+        :param observations: The observation sequence, where each element belongs to 'observations' variable declared with __init__ object. 
+        :type observations: A list or tuple
 
-        See Also :
-        ----------
-            hmm
-            hmm.viterbi(observations)
-            hmm.train_hmm(observation_list, iterations, quantities)
-            hmm.log_prob
-        
-        Example:
-        --------
-            >>> states = ('s', 't')
-            >>> possible_observation = ('A','B' )
-            >>> # Numpy arrays of the data
-            >>> start_probability = np.matrix( '0.5 0.5 ')
-            >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
-            >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
-            >>> # Initialize class object
-            >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
-            >>> observations = ('A', 'B','B','A')
-            >>> print(test.forward_algo(observations))
+        :return: The probability of occurence of the observation sequence
+        :rtype: float 
+
+        **Example**:
+
+        >>> states = ('s', 't')
+        >>> possible_observation = ('A','B' )
+        >>> # Numpy arrays of the data
+        >>> start_probability = np.matrix( '0.5 0.5 ')
+        >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
+        >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
+        >>> # Initialize class object
+        >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
+        >>> observations = ('A', 'B','B','A')
+        >>> print(test.forward_algo(observations))
+
+        .. note::
+            No scaling applied here and hence this routine is susceptible to underflow errors. Use :func:`hmm.log_prob` instead.
 
         """
 
@@ -209,40 +192,33 @@ class hmm:
     # ================Viterbi ===================
 
     def viterbi(self,observations):
-        """ Finds the most probable sequence of hidden states for a given observation sequence
+        """ The probability of occurence of the observation sequence
 
-        Parameters :
-        ------------
-            observations :  A list or tuple
-                            The observation sequence, where each element belongs to 'observations' variable declared with __init__ object.
+        **Arguments**:
 
-        Return : 
-        --------
-            Returns a list of hidden states. 
+        :param observations: The observation sequence, where each element belongs to 'observations' variable declared with __init__ object. 
+        :type observations: A list or tuple
+
+        :return: Returns a list of hidden states. 
+        :rtype: list of states           
             
-        Features:
-        ---------
-            Scaling applied here. This ensures that no underflow error occurs.
+        **Features**:
 
-        See Also :
-        ----------
-            hmm
-            hmm.forward(observations)
-            hmm.train_hmm(observation_list, iterations, quantities)
-            hmm.log_prob(observations_list, quantities)
+        Scaling applied here. This ensures that no underflow error occurs.
 
-        Example:
-        --------
-            >>> states = ('s', 't')
-            >>> possible_observation = ('A','B' )
-            >>> # Numpy arrays of the data
-            >>> start_probability = np.matrix( '0.5 0.5 ')
-            >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
-            >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
-            >>> # Initialize class object
-            >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
-            >>> observations = ('A', 'B','B','A')
-            >>> print(test.viterbi(observations))
+
+        **Example**:
+
+        >>> states = ('s', 't')
+        >>> possible_observation = ('A','B' )
+        >>> # Numpy arrays of the data
+        >>> start_probability = np.matrix( '0.5 0.5 ')
+        >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
+        >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
+        >>> # Initialize class object
+        >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
+        >>> observations = ('A', 'B','B','A')
+        >>> print(test.viterbi(observations))
 
         """
 
@@ -305,50 +281,44 @@ class hmm:
     def train_hmm(self,observation_list, iterations, quantities):
         """ Runs the Baum Welch Algorithm and finds the new model parameters
 
-        Parameters :
-        ------------
-            observation_list : A nested list, or a list of lists
-                               Contains a list  multiple observation sequences.
+        **Arguments**:
 
-            quantities       : A list of integers 
-                               Number of times, each corresponding item in  'observation_list' occurs.
+        :param observation_list: A nested list, or a list of lists  
+        :type observation_list: Contains a list  multiple observation sequences.
 
-            iterations       : An integer 
-                               Maximum number of iterations for the algorithm 
-        Return : 
-        --------
-            Returns the emission, transition and start probabilites as numpy matrices.
+        :param iterations: Maximum number of iterations for the algorithm 
+        :type iterations: An integer 
+
+        :param quantities: Number of times, each corresponding item in  'observation_list' occurs.
+        :type quantities: A list of integers
+
+        :return: Returns the emission, transition and start probabilites as numpy matrices
+        :rtype: Three numpy matices 
             
-        Features:
-        ---------
-            Scaling applied here. This ensures that no underflow error occurs.
+        **Features**:
 
-        See Also :
-        ----------
-            hmm
-            hmm.forward(observations)
-            hmm.viterbi(observations)
-            hmm.log_prob(observations_list, quantities)
+        Scaling applied here. This ensures that no underflow error occurs.
+            
+        **Example**:
 
-        Example:
-        --------
-            >>> states = ('s', 't')
-            >>> possible_observation = ('A','B' )
-            >>> # Numpy arrays of the data
-            >>> start_probability = np.matrix( '0.5 0.5 ')
-            >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
-            >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
-            >>> # Initialize class object
-            >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
-            >>> 
-            >>> observations = ('A', 'B','B','A')
-            >>> obs4 = ('B', 'A','B')
-            >>> observation_tuple = []
-            >>> observation_tuple.extend( [observations,obs4] )
-            >>> quantities_observations = [10, 20]
-            >>> num_iter=1000
-            >>> e,t,s = test.train_hmm(observation_tuple,num_iter,quantities_observations)
-            >>> # e,t,s contain new emission transition and start probabilities
+        >>> states = ('s', 't')
+        >>> possible_observation = ('A','B' )
+        >>> # Numpy arrays of the data
+        >>> start_probability = np.matrix( '0.5 0.5 ')
+        >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
+        >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
+        >>> # Initialize class object
+        >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
+        >>> 
+        >>> observations = ('A', 'B','B','A')
+        >>> obs4 = ('B', 'A','B')
+        >>> observation_tuple = []
+        >>> observation_tuple.extend( [observations,obs4] )
+        >>> quantities_observations = [10, 20]
+        >>> num_iter=1000
+        >>> e,t,s = test.train_hmm(observation_tuple,num_iter,quantities_observations)
+        >>> # e,t,s contain new emission transition and start probabilities
+
         """
 
         obs_size = len(observation_list)
@@ -541,43 +511,40 @@ class hmm:
         return self.start_prob, self.trans_prob, self.em_prob 
 
     def log_prob(self,observations_list, quantities): 
-        """ Weighted log probability of a list of observation sequences
+        """ Finds Weighted log probability of a list of observation sequences
 
-        Parameters :
-        ------------
-            observation_list : A nested list, or a list of lists
-                               Contains a list  multiple observation sequences.
+        **Arguments**:
 
-            quantities       : A list of integers 
-                               Number of times, each corresponding item in  'observation_list' occurs.
+        :param observation_list: A nested list, or a list of lists  
+        :type observation_list: Contains a list  multiple observation sequences.
 
-        Return : 
-        --------
-            Returns a float, which is the weighted log probability of multiple observations. 
+        :param quantities: Number of times, each corresponding item in  'observation_list' occurs.
+        :type quantities: A list of integers
 
-        See Also :
-        ----------
-            hmm
-            hmm.forward(observations)
-            hmm.train_hmm(observation_list, iterations, quantities)
+        :return: Weighted log probability of multiple observations. 
+        :rtype: float
+            
+        **Features**:
 
-        Example:
-        --------
-            >>> states = ('s', 't')
-            >>> possible_observation = ('A','B' )
-            >>> # Numpy arrays of the data
-            >>> start_probability = np.matrix( '0.5 0.5 ')
-            >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
-            >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
-            >>> # Initialize class object
-            >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
-            >>> observations = ('A', 'B','B','A')
-            >>> obs4 = ('B', 'A','B')
-            >>> observation_tuple = []
-            >>> observation_tuple.extend( [observations,obs4] )
-            >>> quantities_observations = [10, 20]
-            >>>
-            >>> prob = test.log_prob(observation_tuple, quantities_observations)
+        Scaling applied here. This ensures that no underflow error occurs.
+
+        **Example**:
+
+        >>> states = ('s', 't')
+        >>> possible_observation = ('A','B' )
+        >>> # Numpy arrays of the data
+        >>> start_probability = np.matrix( '0.5 0.5 ')
+        >>> transition_probability = np.matrix('0.6 0.4 ;  0.3 0.7 ')
+        >>> emission_probability = np.matrix( '0.3 0.7 ; 0.4 0.6 ' )
+        >>> # Initialize class object
+        >>> test = hmm(states,possible_observation,start_probability,transition_probability,emission_probability)
+        >>> observations = ('A', 'B','B','A')
+        >>> obs4 = ('B', 'A','B')
+        >>> observation_tuple = []
+        >>> observation_tuple.extend( [observations,obs4] )
+        >>> quantities_observations = [10, 20]
+        >>>
+        >>> prob = test.log_prob(observation_tuple, quantities_observations)
 
         """
 
