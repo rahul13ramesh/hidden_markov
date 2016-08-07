@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='hidden_markov',
-      version='0.3',
+      version='0.3.1',
       description='Implementation of Hidden markov model in discrete domain.',
       url='http://github.com/Red-devilz/hidden_markov',
       author='Rahul',
