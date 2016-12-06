@@ -109,7 +109,7 @@ class hmm:
         tmp1 = list (np.squeeze(np.asarray(summation)))
 
         #Compare
-        if(tmp1 != tmp2):
+        if(not np.prod(np.isclose(tmp1, tmp2))):
             raise ValueError("Probabilities entered for emission matrix are invalid")
 
         # find summation of transition prob
@@ -117,11 +117,11 @@ class hmm:
         tmp1 = list (np.squeeze(np.asarray(summation)))
 
         #Compare
-        if(tmp1 != tmp2):
+        if(not np.prod(np.isclose(tmp1, tmp2))):
             raise ValueError("Probabilities entered for transition matrix are invalid")
 
         summation = np.sum(start_prob,axis=1)
-        if (summation[0,0]!=1):
+        if (not np.isclose(summation[0,0], 1)):
             raise ValueError("Probabilities entered for start state are invalid")
 
     # ================ Generate state_map ===================
