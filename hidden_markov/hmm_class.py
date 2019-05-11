@@ -346,7 +346,7 @@ class hmm:
             trans_norm = transProbNew.sum(axis = 1)
             start_norm = startProbNew.sum(axis = 1)
 
-            emProbNew = emProbNew/ em_norm.transpose()
+            emProbNew = emProbNew/ em_norm
             startProbNew = startProbNew/ start_norm.transpose()
             transProbNew = transProbNew/ trans_norm.transpose()
 
